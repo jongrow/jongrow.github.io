@@ -3,24 +3,45 @@
 <head>
   <meta charset="utf-8">
   
-  <title>android条形码识别.md | Hexo</title>
+  <title>Guava官方教程.md | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="开发步骤
-配置权限管理   
- &amp;lt;uses-permission android:name=&amp;quot;android.permission.CAMERA&amp;quot; /&amp;gt; &amp;lt;uses-feature android:name=&amp;quot;android.hardware.camera&amp;quot; /&amp;gt; &amp;lt;uses-feature android:name=&amp;quot">
+  <meta name="description" content="###What GuavaGuava工程包含了若干给Goolge的Java项目广泛依赖的核心库：
+
+集合 Collections
+缓存 Caching
+原生类型支持 primitives support
+通用注解 Common annotations
+字符串处理  Strigng process
+
+所有这些工具每天都在被Google工程师应用在产品服务中。
+####基本工具 Basic utili">
 <meta property="og:type" content="article">
-<meta property="og:title" content="android条形码识别.md">
-<meta property="og:url" content="http://yoursite.com/2016/06/27/android条形码识别-md/index.html">
+<meta property="og:title" content="Guava官方教程.md">
+<meta property="og:url" content="http://yoursite.com/2016/06/28/Guava官方教程-md/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="开发步骤
-配置权限管理   
- &amp;lt;uses-permission android:name=&amp;quot;android.permission.CAMERA&amp;quot; /&amp;gt; &amp;lt;uses-feature android:name=&amp;quot;android.hardware.camera&amp;quot; /&amp;gt; &amp;lt;uses-feature android:name=&amp;quot">
-<meta property="og:updated_time" content="2016-06-27T08:43:46.000Z">
+<meta property="og:description" content="###What GuavaGuava工程包含了若干给Goolge的Java项目广泛依赖的核心库：
+
+集合 Collections
+缓存 Caching
+原生类型支持 primitives support
+通用注解 Common annotations
+字符串处理  Strigng process
+
+所有这些工具每天都在被Google工程师应用在产品服务中。
+####基本工具 Basic utili">
+<meta property="og:updated_time" content="2016-06-28T08:02:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android条形码识别.md">
-<meta name="twitter:description" content="开发步骤
-配置权限管理   
- &amp;lt;uses-permission android:name=&amp;quot;android.permission.CAMERA&amp;quot; /&amp;gt; &amp;lt;uses-feature android:name=&amp;quot;android.hardware.camera&amp;quot; /&amp;gt; &amp;lt;uses-feature android:name=&amp;quot">
+<meta name="twitter:title" content="Guava官方教程.md">
+<meta name="twitter:description" content="###What GuavaGuava工程包含了若干给Goolge的Java项目广泛依赖的核心库：
+
+集合 Collections
+缓存 Caching
+原生类型支持 primitives support
+通用注解 Common annotations
+字符串处理  Strigng process
+
+所有这些工具每天都在被Google工程师应用在产品服务中。
+####基本工具 Basic utili">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -69,10 +90,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-android条形码识别-md" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Guava官方教程-md" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/06/27/android条形码识别-md/" class="article-date">
-  <time datetime="2016-06-27T06:19:40.000Z" itemprop="datePublished">2016-06-27</time>
+    <a href="/2016/06/28/Guava官方教程-md/" class="article-date">
+  <time datetime="2016-06-28T03:03:52.000Z" itemprop="datePublished">2016-06-28</time>
 </a>
     
   </div>
@@ -83,7 +104,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      android条形码识别.md
+      Guava官方教程.md
     </h1>
   
 
@@ -91,18 +112,45 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="开发步骤"><a href="#开发步骤" class="headerlink" title="开发步骤"></a>开发步骤</h2><ol>
-<li><p>配置权限管理   </p>
-<p> <code>&lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt;</code><br> <code>&lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt;</code><br> <code>&lt;uses-feature android:name=&quot;android.hardware.camera.autofocus&quot; /&gt;</code></p>
+        <p>###What Guava<br>Guava工程包含了若干给Goolge的Java项目广泛依赖的核心库：</p>
+<ol>
+<li>集合 <strong>Collections</strong></li>
+<li>缓存 <strong>Caching</strong></li>
+<li>原生类型支持 <strong>primitives support</strong></li>
+<li>通用注解 <strong>Common annotations</strong></li>
+<li>字符串处理  <strong>Strigng process</strong></li>
+</ol>
+<p>所有这些工具每天都在被Google工程师应用在产品服务中。</p>
+<p>####基本工具 Basic utilities<br>让使用Java语言变得更舒适</p>
+<ol>
+<li><p>使用和避免null</p>
+<blockquote>
+<p>null是模棱两可的，会引起令人困惑的错误，让人很不爽。很多Guava工具类用快速失败拒绝null值，而非盲目接受</p>
+</blockquote>
 </li>
-<li>导入第三方jar包</li>
-<li></li>
+<li><p>前置条件 </p>
+<blockquote>
+<p>让方法中的条件检查更简单</p>
+</blockquote>
+</li>
+<li>常见Object方法：<blockquote>
+<p>简化Object方法实现 如 hashCode() 和 toString()</p>
+</blockquote>
+</li>
+<li>排序<blockquote>
+<p>Guava强大的“流畅风格比较器”</p>
+</blockquote>
+</li>
+<li>Throwables<blockquote>
+<p> 简化了异常和错误的传播与检查    </p>
+</blockquote>
+</li>
 </ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/27/android条形码识别-md/" data-id="cipz60rx000025jm7x3kvc1mi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/28/Guava官方教程-md/" data-id="cipz60rx200035jm7py3e70e3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -111,19 +159,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/06/27/IM使用规范/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/06/28/2016-06-28黄金外汇交易-md/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          (no title)
+          2016-06-28黄金外汇交易.md
         
       </div>
     </a>
   
   
-    <a href="/2016/06/23/从0开始写意/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/06/28/Lambda概述-md/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">从0开始写意</div>
+      <div class="article-nav-title">Lambda概述.md</div>
     </a>
   
 </nav>
