@@ -258,6 +258,335 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/09/android之gradle/" itemprop="url">
+                  android之gradle
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-09T10:40:30+08:00" content="2016-08-09">
+              2016-08-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/09/android之gradle/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/09/android之gradle/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Groovy"><a href="#Groovy" class="headerlink" title="Groovy"></a>Groovy</h3><p>Groovy是一种动态语言，和Java一样，运行于Java虚拟机中，Groovy是在Java平台中，具有像ptyhon,ruby和smalltalk特性的灵活动态语言。<br>当执行Groovy脚本时，Groovy会先将其编译成Java类字节码，然后通过JVM来执行Java类。  </p>
+<h4 id="Groovy中的数据类型"><a href="#Groovy中的数据类型" class="headerlink" title="Groovy中的数据类型"></a>Groovy中的数据类型</h4><ol>
+<li>Java中基本数据类型</li>
+<li>Groovy中的容器类<br>List : ArrayList<br>Map : LinkedHashMap<br>Range : List的一种扩展  </li>
+<li><p>闭包<br>闭包是一种数据类型，它代表了一段可执行的代码</p>
+<pre><code>def aClosure = {//闭包是一段代码，所以需要用花括号括起来..       
+Stringparam1, int param2  -&gt;  //这个箭头很关键。箭头前面是参数定义，箭头后面是代码  
+println&quot;this is code&quot; //这是代码，最后一句是返回值，  
+//也可以使用return，和Groovy中普通函数一样  
+}
+</code></pre></li>
+</ol>
+<h5 id="闭包定义格式"><a href="#闭包定义格式" class="headerlink" title="闭包定义格式"></a>闭包定义格式</h5><pre><code>def xxx = {paramters -&gt; code} 或者
+def xxx = {code}  //这种情况下不需要 -&gt;
+</code></pre><h5 id="调用方法"><a href="#调用方法" class="headerlink" title="调用方法"></a>调用方法</h5><blockquote>
+<p>闭包对象.call(参数)  或者<br>闭包对象(参数)</p>
+</blockquote>
+<pre><code>aClosure.call(&quot;this is string&quot;,100)  或者  
+aClosure(&quot;this is string&quot;, 100)
+</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><ol>
+<li><p>如果闭包没有定义参数的话，则隐含有一个参数，这个参数名字叫做it,和this的作用类似，it代表闭包的参数</p>
+<pre><code>def greeting = {
+    println &quot;hello $it&quot;
+}                
+assert greeting(&apos;jon&apos;) // 输出 hello jon
+
+//上面的代码等同于
+def greeting = {
+    it -&gt;
+    println &quot;hello $it&quot;
+}
+//但是如果在闭包定义时，采用下面这种写法，则表示闭包没有参数
+def noParamClosure = {
+    -&gt;
+    println true
+}
+//调用时不能传参数，否则会报错
+noParamClosure(&quot;hello&quot;) //报错
+</code></pre></li>
+</ol>
+<ol>
+<li><p>省略圆括号<br>闭包在Groovy中大量使用，比如很多类都定义了一些函数，这些函数最后一个参数都是一个闭包。比如：</p>
+<pre><code>def testClosure(int a1,String b1, Closure closure){  
+    //dosomething  
+    closure() //调用闭包  
+}  
+//那么调用的时候，就可以免括号！  
+testClosure (4, &quot;test&quot;, {  
+    println&quot;i am in closure&quot;  
+})  //最后闭包参数的括号可以不写.
+</code></pre></li>
+</ol>
+<h4 id="Gradle-构建"><a href="#Gradle-构建" class="headerlink" title="Gradle 构建"></a>Gradle 构建</h4><h5 id="Gradle-工作包含三个解读"><a href="#Gradle-工作包含三个解读" class="headerlink" title="Gradle 工作包含三个解读"></a>Gradle 工作包含三个解读</h5><ol>
+<li>首先是初始化阶段 Initialization phase，即执行 settings.gradle</li>
+<li>Configuration阶段<br>目标是解析每个project中的build.gradle，在这两个阶段之间可以通过API添加定制化的Hook</li>
+<li>Configuration阶段完了之后，整个build的project以及内部的Task关系就确定了</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/08/黄金外汇交易分析/" itemprop="url">
+                  黄金外汇交易分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-08T11:50:52+08:00" content="2016-08-08">
+              2016-08-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/外汇/" itemprop="url" rel="index">
+                    <span itemprop="name">外汇</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/08/黄金外汇交易分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/08/黄金外汇交易分析/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="财经日历"><a href="#财经日历" class="headerlink" title="财经日历"></a>财经日历</h4><p>16:30 欧元区8月Sentix投资者信心指数<br>22:00 美国7月就业市场状况指数(LMCI)</p>
+<h4 id="2016年8月8日欧磅"><a href="#2016年8月8日欧磅" class="headerlink" title="2016年8月8日欧磅"></a>2016年8月8日欧磅</h4><p>关注 0.8505附近向上突破的交易机会,下午16:30之后再关注</p>
+<h4 id="周图"><a href="#周图" class="headerlink" title="周图"></a>周图</h4><p><img src="http://jongrow.oss-cn-beijing.aliyuncs.com/20160808%E6%AC%A7%E7%A3%85/%E5%91%A8%E5%9B%BE.png" alt=""></p>
+<p>上一周收下影线比较长的阳线，均线15EMA,50SMA多头流向，目前还是多有占据主导</p>
+<h4 id="天图"><a href="#天图" class="headerlink" title="天图"></a>天图</h4><p><img src="http://jongrow.oss-cn-beijing.aliyuncs.com/20160808%E6%AC%A7%E7%A3%85/%E5%A4%A9%E5%9B%BE.png" alt=""></p>
+<p>有坚决大阳线出现，突破拐点压力线，目前顶在上方水平压力带附近进行调整，均线15EMA,50SMA多有流向，重点关注调整充分之后向上突破的交易机会</p>
+<h4 id="4小时图"><a href="#4小时图" class="headerlink" title="4小时图"></a>4小时图</h4><p><img src="http://jongrow.oss-cn-beijing.aliyuncs.com/20160808%E6%AC%A7%E7%A3%85/4%E5%B0%8F%E6%97%B6%E5%9B%BE.png" alt=""></p>
+<p>4小时图有一根坚决大阳线，突破拐点压力线并且站稳上去，目前是在高位进行震荡调整，均线15EMA,50SMA多头流向，关注向上突破的交易机会。<br>值得注意的是上方还有新的拐点压力线及重要的水平压力带的压制，如果关注有两种情况：  </p>
+<ol>
+<li>在关键水平压力位下方调整充分再次坚决突破  </li>
+<li>站稳到关键水平压力位上方之后再等待一波调整后关注合适的交易机会<h4 id="1小时图"><a href="#1小时图" class="headerlink" title="1小时图"></a>1小时图</h4></li>
+</ol>
+<p><img src="http://jongrow.oss-cn-beijing.aliyuncs.com/20160808%E6%AC%A7%E7%A3%85/1%E5%B0%8F%E6%97%B6%E5%9B%BE.png" alt=""></p>
+<p>一波上涨之后在高位进行调整，需要有一根坚决大阳线先向上运行到水平压力带，之后调整一下再凭借15EMA及拐点支撑线关注突破的交易机会。</p>
+<h4 id="15分钟图"><a href="#15分钟图" class="headerlink" title="15分钟图"></a>15分钟图</h4><p><img src="http://jongrow.oss-cn-beijing.aliyuncs.com/20160808%E6%AC%A7%E7%A3%85/15%E5%88%86%E9%92%9F.png" alt=""></p>
+<h5 id="开仓"><a href="#开仓" class="headerlink" title="开仓"></a>开仓</h5><h6 id="合理地方"><a href="#合理地方" class="headerlink" title="合理地方"></a>合理地方</h6><ol>
+<li>4小时收出一根小阳线顶在关键压力位</li>
+<li>1小时，4小时KD指标配合</li>
+<li>止损15个点，盈利将近80个点，盈亏比合理</li>
+<li>15分钟，5分钟均线多头流向</li>
+<li>15分钟有诱空动作</li>
+</ol>
+<h6 id="不合理地方"><a href="#不合理地方" class="headerlink" title="不合理地方"></a>不合理地方</h6><ol>
+<li>1小时图没有坚决K线站上关键压力位</li>
+<li>英镑可能暂时动能不足</li>
+<li><strong>15分钟图行情已经走了好几浪</strong>  </li>
+<li>5分钟图斜率太陡了</li>
+<li>15分钟均线开口比较大</li>
+</ol>
+<h5 id="平仓"><a href="#平仓" class="headerlink" title="平仓"></a>平仓</h5><p><img src="http://jongrow.oss-cn-beijing.aliyuncs.com/20160808%E6%AC%A7%E7%A3%85/5%E5%88%86%E9%92%9F.png" alt="">  </p>
+<ol>
+<li>5分钟图收出坚决大阴线，破掉15EMA，短线行情有问题，最合适的离场位置是立即离场   </li>
+<li>直接止损掉（亏损200美金）</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/04/黄金外汇交易计划/" itemprop="url">
                   黄金外汇交易计划
                 </a>
@@ -1248,259 +1577,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/27/美瑞市场分析/" itemprop="url">
-                  美瑞市场分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-27T20:03:23+08:00" content="2016-07-27">
-              2016-07-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/交易计划/" itemprop="url" rel="index">
-                    <span itemprop="name">交易计划</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/27/美瑞市场分析/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/27/美瑞市场分析/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="2016年7月27日美瑞交易机会"><a href="#2016年7月27日美瑞交易机会" class="headerlink" title="2016年7月27日美瑞交易机会"></a>2016年7月27日美瑞交易机会</h4><p><img src="http://jongrow.oss-cn-beijing.aliyuncs.com/%E5%91%A8%E5%9B%BE.png" alt="美瑞周图"></p>
-<hr>
-<p><img src="http://jongrow.oss-cn-beijing.aliyuncs.com/%E5%A4%A9%E5%9B%BE.png" alt="美瑞天图"></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/27/美瑞市场分析/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/27/SublimeManual/" itemprop="url">
-                  SublimeManual
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-27T17:26:00+08:00" content="2016-07-27">
-              2016-07-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/27/SublimeManual/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/27/SublimeManual/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>按照 package controll</li>
-<li><p>command + p 快速打开文件<br>   @ 快速查找方法</p>
-<h1 id="快速查找属性"><a href="#快速查找属性" class="headerlink" title="快速查找属性"></a>快速查找属性</h1></li>
-<li><p>command + shift + </p>
-</li>
-<li><p>相关插件</p>
-<pre><code>CTAGS
-</code></pre></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1546,7 +1622,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
